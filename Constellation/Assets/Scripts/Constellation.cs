@@ -16,4 +16,13 @@ public class Constellation : MonoBehaviour
         constellationLine.positionCount = _positionStars.Count;
         constellationLine.SetPositions(_positionStars.ToArray());
     }
+
+    //Initialize - x_x
+    public void Initialize()
+    {
+        colorOfConstellation = new Color(Random.Range(0,1f), Random.Range(0, 1f), Random.Range(0, 1f));
+
+        constellationLine.startColor = colorOfConstellation;
+        constellationLine.endColor = colorOfConstellation;
+    }
 }

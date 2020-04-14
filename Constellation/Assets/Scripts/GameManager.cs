@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public Color currentColor;
     public Gradient gradient;
+    public GradientColorKey[] colorKeys;
 
     public SpaceCreator spaceCreator;
 
@@ -25,6 +26,9 @@ public class GameManager : MonoBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
+
+        spaceCreator.NewConstellation();
+        colorKeys = new GradientColorKey[2];
     }
 
     void Update()
@@ -33,6 +37,10 @@ public class GameManager : MonoBehaviour
         {
             spaceCreator.CreateTheStar();
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            spaceCreator.NewConstellation();
+        }
         if (line.positionCount != 0)
         {
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -40,7 +48,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    //New Branches - Barron and Painting
+    public void NewBranche(Constellation constellation)
+    {
+        allConstellation.Add(constellation);
+        currentConstellation = constellation;
+
+        for (int i = 0; i < colorKeys.Length; i++)
+        {
+            colorKeys[i].color = constellation.colorOfConstellation;
+        }
+
+        gradient.colorKeys = colorKeys;
+    }
 
     
 }

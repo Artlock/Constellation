@@ -25,6 +25,8 @@ public class SpaceCreator : MonoBehaviour
     //A New Constellation - Quantic, The Western Transient
     public void NewConstellation()
     {
+        Constellation constellation = Instantiate(constellationPrefab);
 
+        GameManager.instance.NewBranche(constellation);
     }
 }
