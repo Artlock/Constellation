@@ -799,11 +799,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 788365164}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.2186146, y: -1.2716612, z: 0.5253906}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1784770616}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1738801750
 GameObject:
@@ -834,7 +834,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1738801752
 MonoBehaviour:
@@ -848,11 +848,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6049eb2731d8dd04faaf367523592a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  line: {fileID: 606729479}
-  constellationLine: {fileID: 788365165}
-  starPrefab: {fileID: 3750634071812294587, guid: dbd90b4abeae9324282e65de4aa16ce7,
-    type: 3}
   constellation: {fileID: 1784770616}
+  line: {fileID: 0}
   currentColor: {r: 1, g: 0, b: 0, a: 1}
   gradient:
     serializedVersion: 2
@@ -883,6 +880,9 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  spaceCreator: {fileID: 0}
+  allConstellation: []
+  currentConstellation: {fileID: 0}
 --- !u!1 &1784770615
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,6 +892,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1784770616}
+  - component: {fileID: 1784770617}
   m_Layer: 0
   m_Name: Constellation
   m_TagString: Untagged
@@ -909,7 +910,22 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.2186146, y: 1.2716612, z: -0.5253906}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 788365166}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1784770617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784770615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1250d1eea2e05334fb1b054b68b6e0c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOfConstellation: {r: 1, g: 0, b: 0, a: 1}
+  constellationLine: {fileID: 788365165}
