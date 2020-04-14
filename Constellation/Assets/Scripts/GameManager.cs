@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public LineRenderer line;
+    public LineRenderer constellationLine;
+
     public Star starPrefab;
     public Transform constellation;
 
@@ -30,7 +32,7 @@ public class GameManager : MonoBehaviour
         if (line.positionCount != 0)
         {
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            line.SetPosition(_positionStars.Count, position);
+            line.SetPosition(1, position);
         }
     }
 
@@ -42,8 +44,10 @@ public class GameManager : MonoBehaviour
         Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _positionStars.Add(position);
 
-        line.positionCount = _positionStars.Count +1;
-        line.SetPositions(_positionStars.ToArray());
+        constellationLine.positionCount = _positionStars.Count;
+        constellationLine.SetPositions(_positionStars.ToArray());
+
+        line.SetPosition(0, position);
 
         star.Initialize(currentColor, position);
         CameraManager.instance.FollowMe(position);
