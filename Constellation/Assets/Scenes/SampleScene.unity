@@ -721,13 +721,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6049eb2731d8dd04faaf367523592a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  constellation: {fileID: 1784770616}
   line: {fileID: 606729479}
-  currentColor: {r: 1, g: 0, b: 0, a: 1}
   gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 0.6392157}
+    key1: {r: 1, g: 1, b: 1, a: 0.79607844}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -754,8 +752,10 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   spaceCreator: {fileID: 1738801753}
+  distanceToSnap: 0.5
   allConstellation: []
-  currentConstellation: {fileID: 1784770617}
+  currentConstellation: {fileID: 0}
+  spawnRate: 0.2
 --- !u!114 &1738801753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,55 +772,7 @@ MonoBehaviour:
     type: 3}
   constellationPrefab: {fileID: 6737334104092598028, guid: 9e58bc3d2d784c441aabe02206baec4f,
     type: 3}
---- !u!4 &1784770616 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6737334104092598029, guid: 9e58bc3d2d784c441aabe02206baec4f,
+  linePrefab: {fileID: 485368535835030190, guid: 2513d6073135cdf409e25710028c343b,
     type: 3}
-  m_PrefabInstance: {fileID: 6737334102588993333}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1784770617 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6737334104092598028, guid: 9e58bc3d2d784c441aabe02206baec4f,
+  groupPrefab: {fileID: 8031948354659540491, guid: c389b47eef2e87040a65226d6a53b5cb,
     type: 3}
-  m_PrefabInstance: {fileID: 6737334102588993333}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1250d1eea2e05334fb1b054b68b6e0c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1001 &6737334102588993333
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6737334104092598018, guid: 9e58bc3d2d784c441aabe02206baec4f,
-        type: 3}
-      propertyPath: m_Name
-      value: Constellation
-      objectReference: {fileID: 0}
-    - target: {fileID: 6737334104092598029, guid: 9e58bc3d2d784c441aabe02206baec4f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6737334104092598029, guid: 9e58bc3d2d784c441aabe02206baec4f,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6737334104092598029, guid: 9e58bc3d2d784c441aabe02206baec4f,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6737334104092598029, guid: 9e58bc3d2d784c441aabe02206baec4f,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9e58bc3d2d784c441aabe02206baec4f, type: 3}

@@ -6,7 +6,9 @@ public class SpaceCreator : MonoBehaviour
 {
     public Star starPrefab;
     public Constellation constellationPrefab;
+
     public LineRenderer linePrefab;
+    public GameObject groupPrefab;
 
     // We Create The Stars - GUMIHO
     public void CreateTheStar(Vector2 position, Constellation constellation)
@@ -22,11 +24,11 @@ public class SpaceCreator : MonoBehaviour
     }
 
     // We Create The Stars - GUMIHO
-    public Star CreateTheStar(Vector2 position, Color color)
+    public Star CreateTheStar(Vector2 position, Color color, Transform groupTransform)
     {
-        Star star = Instantiate(starPrefab);
+        Star star = Instantiate(starPrefab, groupTransform);
 
-        star.Initialize(color, position);
+        star.Initialize(color, position, false);
 
         GameManager.instance.line.SetPosition(0, position);
 

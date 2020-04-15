@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             spaceCreator.NewConstellation();
+            CameraManager.instance.transform.position = new Vector3(0,0,-10);
         }
 
         if (line.positionCount != 0)
@@ -75,20 +76,36 @@ public class GameManager : MonoBehaviour
         line.gameObject.SetActive(false);
 
         //Focus CAM
+        List<Star> allStars = new List<Star>();
 
         for (int i =0; i < allConstellation.Count; i++)
         {
+            List<Star> starSpawner = new List<Star>();
+
             Star[] stars = allConstellation[i].TakeEverything();
             LineRenderer lineRenderer = Instantiate(spaceCreator.linePrefab);
-            List<Star> starSpawner = new List<Star>();
+            GameObject groupStars = Instantiate(spaceCreator.groupPrefab);
 
             lineRenderer.startColor = allConstellation[i].colorOfConstellation;
             lineRenderer.endColor = allConstellation[i].colorOfConstellation;
 
+            if (i != 0)
+            {
+                int rand = UnityEngine.Random.Range(0, allStars.Count);
+                float randRot = UnityEngine.Random.Range(0f, 360f);
+
+                groupStars.transform.position = allStars[rand].transform.position;
+                groupStars.transform.eulerAngles = new Vector3(0,0,randRot);
+            }
+
             for (int j = 0; j < stars.Length; j++)
             {
-                Star star = spaceCreator.CreateTheStar(stars[j].transform.position, allConstellation[i].colorOfConstellation);
+                Star star = spaceCreator.CreateTheStar(stars[j].transform.position, allConstellation[i].colorOfConstellation, groupStars.transform);
+                star.name = allConstellation[i].colorOfConstellation + "  " + j;
                 starSpawner.Add(star);
+                allStars.Add(star);
+
+                star.transform.position = Snapping(allStars, star.transform.position);
 
                 lineRenderer.positionCount = starSpawner.Count;
                 lineRenderer.SetPositions(starSpawner.Select(t => t.transform.position).ToArray());
@@ -99,5 +116,18 @@ public class GameManager : MonoBehaviour
         //Display NAme
 
         yield break;
+    }
+
+    //Snapping - CHUNG HA
+    public Vector2 Snapping(List<Star> stars, Vector2 position)
+    {
+        for (int i = 0; i < stars.Count; i++)
+        {
+            if (Vector2.Distance(position, stars[i].transform.position) < distanceToSnap*2)
+            {
+                return stars[i].transform.position;
+            }
+        }
+        return position;
     }
 }

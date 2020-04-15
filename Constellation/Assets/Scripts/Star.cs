@@ -7,9 +7,12 @@ public class Star : MonoBehaviour
     public SpriteRenderer display;
 
     //INITIALIZE - She Her Her Hers
-    public void Initialize(Color color, Vector2 position)
+    public void Initialize(Color color, Vector2 position, bool world = true)
     {
         display.color = color;
-        transform.position = position;
+        if (world)
+            transform.position = position;
+        else
+            transform.localPosition = position;
     }
 }
