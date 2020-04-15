@@ -55,7 +55,7 @@ public class CameraManager : MonoBehaviour
 
         Vector2 screenSize = new Vector2(topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
 
-        Vector2 sidesSize = new Vector2(sides.right - sides.left + 2f, sides.top - sides.bottom + 2f);
+        Vector2 sidesSize = new Vector2(sides.right - sides.left + 2f, sides.top - sides.bottom + 8f);
         if (screenSize.x < sidesSize.x || screenSize.y < sidesSize.y)
         {
             _camera.orthographicSize += Time.deltaTime * speedZoom;
