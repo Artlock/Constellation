@@ -58,12 +58,12 @@ public class GameManager : MonoBehaviour
                 UIManager.instance.CountingStars(maxStars);
             }
         }
-        if (Input.GetMouseButtonDown(2))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             StartCoroutine(MilkyWay());
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2))
         {
             spaceCreator.NewConstellation();
             CameraManager.instance.transform.position = new Vector3(0,0,-10);
