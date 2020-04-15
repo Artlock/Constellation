@@ -483,6 +483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followPosition: {x: 0, y: 0}
   speedFollow: 2
+  speedZoom: 4
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0

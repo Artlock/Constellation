@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
                 allStars.Add(star);
 
                 star.transform.position = Snapping(allStars, star.transform.position);
+                CameraManager.instance.EdgeOfTheWorld(star.transform.position);
 
                 lineRenderer.positionCount = starSpawner.Count;
                 lineRenderer.SetPositions(starSpawner.Select(t => t.transform.position).ToArray());
@@ -129,5 +130,5 @@ public class GameManager : MonoBehaviour
             }
         }
         return position;
-    }
+    } 
 }
