@@ -19,12 +19,12 @@ public class GameManager : MonoBehaviour
 
     public List<Constellation> allConstellation = new List<Constellation>();
     public Constellation currentConstellation;
+    public ParticleSystem[] effectSpawns;
 
     public int maxStars = 20;
 
     [Header("Milky Way")]
     public float spawnRate = 0.2f;
-
 
     void Awake()
     {
@@ -164,5 +164,18 @@ public class GameManager : MonoBehaviour
     {
         UIManager.instance.Disapear();
         StartCoroutine(MilkyWay());
+    }
+
+    //Particle Flux - Chelsea Wolfe
+    public ParticleSystem ParticleFlux()
+    {
+        for (int i = 0; i < effectSpawns.Length; i++)
+        {
+            if (!effectSpawns[i].isPlaying)
+            {
+                return effectSpawns[i];
+            }
+        }
+        return effectSpawns[0];
     }
 }

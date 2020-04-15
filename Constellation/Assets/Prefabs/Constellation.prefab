@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorOfConstellation: {r: 1, g: 0, b: 0, a: 1}
   constellationLine: {fileID: 6737334102943092824}
+  soundStar: {fileID: 8300000, guid: d6a3599ac8381244986bee964b850188, type: 3}
 --- !u!1001 &6612324078128030454
 PrefabInstance:
   m_ObjectHideFlags: 0

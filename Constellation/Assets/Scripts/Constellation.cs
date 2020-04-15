@@ -8,6 +8,7 @@ public class Constellation : MonoBehaviour
     public Color colorOfConstellation;
     public LineRenderer constellationLine;
 
+
     private List<Star> _positionStars = new List<Star>();
 
     // Linked Stars - Erik Wollo, Byron Metcalf

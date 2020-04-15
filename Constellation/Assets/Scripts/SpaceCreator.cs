@@ -10,6 +10,9 @@ public class SpaceCreator : MonoBehaviour
     public LineRenderer linePrefab;
     public GameObject groupPrefab;
 
+    public AudioClip soundStar;
+
+
     // We Create The Stars - GUMIHO
     public void CreateTheStar(Vector2 position, Constellation constellation)
     {
@@ -21,6 +24,16 @@ public class SpaceCreator : MonoBehaviour
         GameManager.instance.line.SetPosition(0, position);
 
         CameraManager.instance.FollowMe(position);
+
+        ParticleSystem particle = GameManager.instance.ParticleFlux();
+        ParticleSystem.MainModule mainModule = particle.main;
+        mainModule.startColor = constellation.colorOfConstellation;
+
+        particle.transform.position = star.transform.position;
+        particle.Play();
+
+        SoundManager.instance.SoundEffect(soundStar);
+
     }
 
     // We Create The Stars - GUMIHO
@@ -31,6 +44,14 @@ public class SpaceCreator : MonoBehaviour
         star.Initialize(color, position, false);
 
         GameManager.instance.line.SetPosition(0, position);
+
+        ParticleSystem particle = GameManager.instance.ParticleFlux();
+        ParticleSystem.MainModule mainModule = particle.main;
+        mainModule.startColor = color;
+        particle.transform.position = star.transform.position;
+        particle.Play();
+
+        SoundManager.instance.SoundEffect(soundStar);
 
         return star;
     }
