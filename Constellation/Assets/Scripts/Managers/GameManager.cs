@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Linq;
 using TMPro;
 
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && maxStars != 0)
+        if (Input.GetMouseButtonDown(0) && maxStars != 0 && !EventSystem.current.IsPointerOverGameObject() && EventSystem.current.currentSelectedGameObject == null)
         {
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             position = currentConstellation.Snapping(position);
@@ -58,10 +59,6 @@ public class GameManager : MonoBehaviour
                 UIManager.instance.CountingStars(maxStars);
             }
         }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            StartCoroutine(MilkyWay());
-        }
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2))
         {
@@ -69,7 +66,7 @@ public class GameManager : MonoBehaviour
             CameraManager.instance.transform.position = new Vector3(0,0,-10);
         }
 
-        if (line.positionCount != 0)
+        if (line.positionCount != 0 && maxStars != 0)
         {
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             position = currentConstellation.Snapping(position);
@@ -165,6 +162,7 @@ public class GameManager : MonoBehaviour
     //The End Of The Game - Weezer
     public void EndOfTheGame()
     {
-
+        UIManager.instance.Disapear();
+        StartCoroutine(MilkyWay());
     }
 }

@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     public GameObject explainControls;
+    public GameObject buttonFinish;
 
     public TextMeshProUGUI nameMulkyWay;
     public TextMeshProUGUI counterStars;
@@ -24,5 +25,14 @@ public class UIManager : MonoBehaviour
     public void CountingStars(int amount)
     {
         counterStars.text = amount + " stars left";
+    }
+
+    //Disapear - The positive
+    public void Disapear()
+    {
+        explainControls.SetActive(false);
+        counterStars.gameObject.SetActive(false);
+        buttonFinish.SetActive(false);
+
     }
 }
