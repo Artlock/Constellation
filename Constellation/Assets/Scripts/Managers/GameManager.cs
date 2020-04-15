@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,8 +19,11 @@ public class GameManager : MonoBehaviour
     public List<Constellation> allConstellation = new List<Constellation>();
     public Constellation currentConstellation;
 
+    public int maxStars = 20;
+
     [Header("Milky Way")]
     public float spawnRate = 0.2f;
+
 
     void Awake()
     {
@@ -30,17 +34,29 @@ public class GameManager : MonoBehaviour
         colorKeys = new GradientColorKey[2];
     }
 
+    void Start()
+    {
+        UIManager.instance.CountingStars(maxStars);
+    }
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && maxStars != 0)
         {
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             position = currentConstellation.Snapping(position);
             spaceCreator.CreateTheStar(position, currentConstellation);
+            
+            maxStars--;
+            UIManager.instance.CountingStars(maxStars);
         }
         if (Input.GetMouseButtonDown(1))
         {
-            currentConstellation.StarDestroyer();
+            if (currentConstellation.StarDestroyer())
+            {
+                maxStars++;
+                UIManager.instance.CountingStars(maxStars);
+            }
         }
         if (Input.GetMouseButtonDown(2))
         {
@@ -75,10 +91,20 @@ public class GameManager : MonoBehaviour
         currentConstellation?.gameObject.SetActive(false);
         line.gameObject.SetActive(false);
 
-        //Focus CAM
+        yield return DrawTheStars();
+
+        //Display NAme
+        yield return CallName();
+
+        yield break;
+    }
+
+    //Draw the stars - Andredya Triana
+    private IEnumerator DrawTheStars()
+    {
         List<Star> allStars = new List<Star>();
 
-        for (int i =0; i < allConstellation.Count; i++)
+        for (int i = 0; i < allConstellation.Count; i++)
         {
             List<Star> starSpawner = new List<Star>();
 
@@ -95,7 +121,7 @@ public class GameManager : MonoBehaviour
                 float randRot = UnityEngine.Random.Range(0f, 360f);
 
                 groupStars.transform.position = allStars[rand].transform.position;
-                groupStars.transform.eulerAngles = new Vector3(0,0,randRot);
+                groupStars.transform.eulerAngles = new Vector3(0, 0, randRot);
             }
 
             for (int j = 0; j < stars.Length; j++)
@@ -113,9 +139,13 @@ public class GameManager : MonoBehaviour
                 yield return new WaitForSeconds(spawnRate);
             }
         }
+    }
 
-        //Display NAme
-
+    //Call Your Name - Hiroyuki Sawano
+    private IEnumerator CallName()
+    {
+        NameGenerator generator = new NameGenerator();
+        UIManager.instance.nameMulkyWay.text = generator.Generate();
         yield break;
     }
 
@@ -130,5 +160,11 @@ public class GameManager : MonoBehaviour
             }
         }
         return position;
-    } 
+    }
+
+    //The End Of The Game - Weezer
+    public void EndOfTheGame()
+    {
+
+    }
 }

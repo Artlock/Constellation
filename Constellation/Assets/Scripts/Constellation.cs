@@ -43,9 +43,9 @@ public class Constellation : MonoBehaviour
     }
 
     // Star Destroyer - Consin Simple
-    public void StarDestroyer()
+    public bool StarDestroyer()
     {
-        if (_positionStars.Count < 1) return;
+        if (_positionStars.Count < 1) return false;
 
         Star star = _positionStars[_positionStars.Count - 1];
         _positionStars.Remove(star);
@@ -57,6 +57,7 @@ public class Constellation : MonoBehaviour
         GameManager.instance.line.SetPosition(0, _positionStars[_positionStars.Count - 1].transform.position);
 
         CameraManager.instance.FollowMe(_positionStars[_positionStars.Count - 1].transform.position);
+        return true;
     }
 
     //
