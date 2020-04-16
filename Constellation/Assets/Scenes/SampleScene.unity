@@ -21302,7 +21302,7 @@ MonoBehaviour:
   - {fileID: 1592605090}
   - {fileID: 752546958}
   maxStars: 20
-  spawnRate: 0.2
+  spawnRate: 0.4
 --- !u!114 &1738801753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21323,6 +21323,7 @@ MonoBehaviour:
     type: 3}
   groupPrefab: {fileID: 8031948354659540491, guid: c389b47eef2e87040a65226d6a53b5cb,
     type: 3}
+  soundStar: {fileID: 8300000, guid: d6a3599ac8381244986bee964b850188, type: 3}
 --- !u!114 &1738801754
 MonoBehaviour:
   m_ObjectHideFlags: 0

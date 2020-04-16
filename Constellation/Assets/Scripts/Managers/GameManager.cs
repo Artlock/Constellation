@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
         //Display NAme
         yield return CallName();
 
+        //ScreenShotManager.instance.StayInMemory();
         yield break;
     }
 
