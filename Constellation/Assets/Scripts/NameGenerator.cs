@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System;
 
 public class NameGenerator
@@ -34,7 +32,9 @@ public class NameGenerator
         string name1 = allNames[randInt].ToLower();
 
         // Pick random character in the name
-        char randChar = name1[random.Next(0, name1.Length)];
+        // We avoid picking the 1st letter to avoid cases
+        // Where randoms pick chars FIRST & LAST and it ends up making a 1 letter word
+        char randChar = name1[random.Next(1, name1.Length)];
 
         // Get a list of other available names that have that same character
         string[] namesAvailable = allNames.Where(s => s.ToLower().Contains(randChar) && s != name1).ToArray();
