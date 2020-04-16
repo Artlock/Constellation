@@ -28,23 +28,44 @@ public class NameGenerator
     public string Generate()
     {
         Random random = new Random();
-        int rand = random.Next(0, allNames.Length);
 
-        string name1 = allNames[rand];
+        // Pick random name
+        int randInt = random.Next(0, allNames.Length);
+        string name1 = allNames[randInt].ToLower();
 
-        char randChar = name1[random.Next(0, name1.Length-1)];
-        string[] namesAvailable = allNames.Where(s => s.Contains(randChar) && randChar != s[0] && s!= name1).ToArray();
+        // Pick random character in the name
+        char randChar = name1[random.Next(0, name1.Length)];
 
-        rand = random.Next(0, namesAvailable.Length-1);
-        string name2 = namesAvailable[rand];
+        // Get a list of other available names that have that same character
+        string[] namesAvailable = allNames.Where(s => s.ToLower().Contains(randChar) && s != name1).ToArray();
 
+        // Get another name in that list of names
+        randInt = random.Next(0, namesAvailable.Length);
+        string name2 = namesAvailable[randInt].ToLower();
+
+        // Substring name up to the selected character excluded
         int index = name1.IndexOf(randChar);
         name1 = name1.Substring(0, index);
 
+        // Substring name from the selected character onwards
         index = name2.IndexOf(randChar);
-
         name2 = name2.Substring(index);
 
+        // Add up both names to create the final name
         return name1 + name2;
+    }
+}
+
+public static class StringExtensions
+{
+    public static string FirstCharToUpper(this string input)
+    {
+        switch (input)
+        {
+            case null: return "";
+            case "": return "";
+            default:
+                return input.First().ToString().ToUpper() + input.Substring(1);
+        }
     }
 }
