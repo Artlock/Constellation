@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
+    public static UIManager Instance { get; private set; }
 
     public GameObject explainControls;
     public GameObject buttonFinish;
@@ -13,10 +11,17 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI nameMulkyWay;
     public TextMeshProUGUI counterStars;
 
-    void Awake()
+    private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         nameMulkyWay.text = "";
     }
@@ -27,12 +32,11 @@ public class UIManager : MonoBehaviour
         counterStars.text = amount + " stars left";
     }
 
-    //Disapear - The positive
-    public void Disapear()
+    //Disappear - The positive
+    public void Disappear()
     {
-        explainControls.SetActive(false);
         counterStars.gameObject.SetActive(false);
+        explainControls.SetActive(false);
         buttonFinish.SetActive(false);
-
     }
 }

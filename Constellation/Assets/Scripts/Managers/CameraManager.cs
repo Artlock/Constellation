@@ -1,35 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public static CameraManager instance;
+    public static CameraManager Instance;
 
     public Vector2 followPosition;
     public float speedFollow;
-    private Camera _camera;
-
-    public float speedZoom = 2;
+    public float speedZoom = 2f;
 
     public SideClamp sides;
+
+    private Camera _camera;
+
     public struct SideClamp
     {
-        public float top;
-        public float left;
         public float right;
+        public float left;
+        public float top;
         public float bottom;
     }
 
-    void Awake()
+    private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         _camera = GetComponentInChildren<Camera>();
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         Vector3 position = transform.position;
 
@@ -54,7 +60,6 @@ public class CameraManager : MonoBehaviour
         Vector3 topRight = _camera.ScreenToWorldPoint(new Vector3(_camera.pixelWidth, _camera.pixelHeight, 0));
 
         Vector2 screenSize = new Vector2(topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
-
         Vector2 sidesSize = new Vector2(sides.right - sides.left + 2f, sides.top - sides.bottom + 8f);
         if (screenSize.x < sidesSize.x || screenSize.y < sidesSize.y)
         {
@@ -82,6 +87,6 @@ public class CameraManager : MonoBehaviour
             sides.bottom = position.y;
         }
 
-        followPosition = new Vector2((sides.left+sides.right)/2f, (sides.top + sides.bottom) / 2f);
+        followPosition = new Vector2((sides.left + sides.right) / 2f, (sides.top + sides.bottom) / 2f);
     }
 }

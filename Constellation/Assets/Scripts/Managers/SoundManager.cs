@@ -1,19 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager instance;
+    public static SoundManager Instance { get; private set; }
 
     public AudioSource sfx;
 
-    void Awake()
+    private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     //Sfx 8 Sound Effect - Noah Smith

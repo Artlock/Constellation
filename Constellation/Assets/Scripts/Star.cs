@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Star : MonoBehaviour
 {
@@ -10,6 +8,7 @@ public class Star : MonoBehaviour
     public void Initialize(Color color, Vector2 position, bool world = true)
     {
         display.color = color;
+
         if (world)
             transform.position = position;
         else

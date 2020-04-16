@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager Instance { get; private set; }
 
     public LineRenderer line;
-    
+
     public Gradient gradient;
     public GradientColorKey[] colorKeys;
 
     public SpaceCreator spaceCreator;
     public float distanceToSnap;
 
-    public List<Constellation> allConstellation = new List<Constellation>();
+    public List<Constellation> constellations = new List<Constellation>();
     public Constellation currentConstellation;
     public ParticleSystem[] effectSpawns;
 
@@ -28,7 +27,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null) instance = this;
+        if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
         spaceCreator.NewConstellation();
@@ -37,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        UIManager.instance.CountingStars(maxStars);
+        UIManager.Instance.CountingStars(maxStars);
     }
 
     void Update()
@@ -47,23 +46,23 @@ public class GameManager : MonoBehaviour
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             position = currentConstellation.Snapping(position);
             spaceCreator.CreateTheStar(position, currentConstellation);
-            
+
             maxStars--;
-            UIManager.instance.CountingStars(maxStars);
+            UIManager.Instance.CountingStars(maxStars);
         }
         if (Input.GetMouseButtonDown(1))
         {
             if (currentConstellation.StarDestroyer())
             {
                 maxStars++;
-                UIManager.instance.CountingStars(maxStars);
+                UIManager.Instance.CountingStars(maxStars);
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2))
         {
             spaceCreator.NewConstellation();
-            CameraManager.instance.transform.position = new Vector3(0,0,-10);
+            CameraManager.Instance.transform.position = new Vector3(0, 0, -10);
         }
 
         if (line.positionCount != 0 && maxStars != 0)
@@ -78,7 +77,7 @@ public class GameManager : MonoBehaviour
     public void NewBranche(Constellation constellation)
     {
         currentConstellation?.gameObject.SetActive(false);
-        allConstellation.Add(constellation);
+        constellations.Add(constellation);
         currentConstellation = constellation;
     }
 
@@ -102,21 +101,21 @@ public class GameManager : MonoBehaviour
     {
         List<Star> allStars = new List<Star>();
 
-        for (int i = 0; i < allConstellation.Count; i++)
+        for (int i = 0; i < constellations.Count; i++)
         {
             List<Star> starSpawner = new List<Star>();
 
-            Star[] stars = allConstellation[i].TakeEverything();
+            Star[] stars = constellations[i].TakeEverything();
             LineRenderer lineRenderer = Instantiate(spaceCreator.linePrefab);
             GameObject groupStars = Instantiate(spaceCreator.groupPrefab);
 
-            lineRenderer.startColor = allConstellation[i].colorOfConstellation;
-            lineRenderer.endColor = allConstellation[i].colorOfConstellation;
+            lineRenderer.startColor = constellations[i].colorOfConstellation;
+            lineRenderer.endColor = constellations[i].colorOfConstellation;
 
             if (i != 0)
             {
-                int rand = UnityEngine.Random.Range(0, allStars.Count);
-                float randRot = UnityEngine.Random.Range(0f, 360f);
+                int rand = Random.Range(0, allStars.Count);
+                float randRot = Random.Range(0f, 360f);
 
                 groupStars.transform.position = allStars[rand].transform.position;
                 groupStars.transform.eulerAngles = new Vector3(0, 0, randRot);
@@ -124,13 +123,13 @@ public class GameManager : MonoBehaviour
 
             for (int j = 0; j < stars.Length; j++)
             {
-                Star star = spaceCreator.CreateTheStar(stars[j].transform.position, allConstellation[i].colorOfConstellation, groupStars.transform);
-                star.name = allConstellation[i].colorOfConstellation + "  " + j;
+                Star star = spaceCreator.CreateTheStar(stars[j].transform.position, constellations[i].colorOfConstellation, groupStars.transform);
+                star.name = constellations[i].colorOfConstellation + "  " + j;
                 starSpawner.Add(star);
                 allStars.Add(star);
 
                 star.transform.position = Snapping(allStars, star.transform.position);
-                CameraManager.instance.EdgeOfTheWorld(star.transform.position);
+                CameraManager.Instance.EdgeOfTheWorld(star.transform.position);
 
                 lineRenderer.positionCount = starSpawner.Count;
                 lineRenderer.SetPositions(starSpawner.Select(t => t.transform.position).ToArray());
@@ -143,7 +142,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator CallName()
     {
         NameGenerator generator = new NameGenerator();
-        UIManager.instance.nameMulkyWay.text = generator.Generate();
+        UIManager.Instance.nameMulkyWay.text = generator.Generate();
         yield break;
     }
 
@@ -152,7 +151,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < stars.Count; i++)
         {
-            if (Vector2.Distance(position, stars[i].transform.position) < distanceToSnap*2)
+            if (Vector2.Distance(position, stars[i].transform.position) < distanceToSnap * 2)
             {
                 return stars[i].transform.position;
             }
@@ -163,7 +162,7 @@ public class GameManager : MonoBehaviour
     //The End Of The Game - Weezer
     public void EndOfTheGame()
     {
-        UIManager.instance.Disapear();
+        UIManager.Instance.Disappear();
         StartCoroutine(MilkyWay());
     }
 
