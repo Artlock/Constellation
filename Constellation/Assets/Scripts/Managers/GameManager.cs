@@ -16,40 +16,48 @@ public class GameManager : MonoBehaviour
     public SpaceCreator spaceCreator;
     public float distanceToSnap;
 
-    public List<Constellation> constellations = new List<Constellation>();
-    public Constellation currentConstellation;
-    public ParticleSystem[] effectSpawns;
-
     public int maxStars = 20;
+    public Constellation currentConstellation;
+    public List<Constellation> constellations = new List<Constellation>();
+
+    public ParticleSystem[] effectSpawns;
 
     [Header("Milky Way")]
     public float spawnRate = 0.2f;
 
-    void Awake()
+    private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
         spaceCreator.NewConstellation();
         colorKeys = new GradientColorKey[2];
     }
 
-    void Start()
+    private void Start()
     {
         UIManager.Instance.CountingStars(maxStars);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0) && maxStars != 0 && !EventSystem.current.IsPointerOverGameObject() && EventSystem.current.currentSelectedGameObject == null)
         {
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             position = currentConstellation.Snapping(position);
+
             spaceCreator.CreateTheStar(position, currentConstellation);
 
             maxStars--;
             UIManager.Instance.CountingStars(maxStars);
         }
+
         if (Input.GetMouseButtonDown(1))
         {
             if (currentConstellation.StarDestroyer())
@@ -62,6 +70,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2))
         {
             spaceCreator.NewConstellation();
+
             CameraManager.Instance.transform.position = new Vector3(0, 0, -10);
         }
 
@@ -69,6 +78,7 @@ public class GameManager : MonoBehaviour
         {
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             position = currentConstellation.Snapping(position);
+
             line.SetPosition(1, position);
         }
     }
@@ -77,8 +87,9 @@ public class GameManager : MonoBehaviour
     public void NewBranche(Constellation constellation)
     {
         currentConstellation?.gameObject.SetActive(false);
-        constellations.Add(constellation);
         currentConstellation = constellation;
+
+        constellations.Add(constellation);
     }
 
     //Under the milky way - Sia
@@ -89,8 +100,8 @@ public class GameManager : MonoBehaviour
 
         yield return DrawTheStars();
 
-        //Display NAme
-        yield return CallName();
+        // Display the name
+        CallName();
 
         //ScreenShotManager.instance.StayInMemory();
         yield break;
@@ -104,8 +115,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < constellations.Count; i++)
         {
             List<Star> starSpawner = new List<Star>();
-
             Star[] stars = constellations[i].TakeEverything();
+
             LineRenderer lineRenderer = Instantiate(spaceCreator.linePrefab);
             GameObject groupStars = Instantiate(spaceCreator.groupPrefab);
 
@@ -124,26 +135,28 @@ public class GameManager : MonoBehaviour
             for (int j = 0; j < stars.Length; j++)
             {
                 Star star = spaceCreator.CreateTheStar(stars[j].transform.position, constellations[i].colorOfConstellation, groupStars.transform);
-                star.name = constellations[i].colorOfConstellation + "  " + j;
+                star.name = constellations[i].colorOfConstellation + " " + j;
+
                 starSpawner.Add(star);
                 allStars.Add(star);
 
                 star.transform.position = Snapping(allStars, star.transform.position);
+
                 CameraManager.Instance.EdgeOfTheWorld(star.transform.position);
 
                 lineRenderer.positionCount = starSpawner.Count;
                 lineRenderer.SetPositions(starSpawner.Select(t => t.transform.position).ToArray());
+
                 yield return new WaitForSeconds(spawnRate);
             }
         }
     }
 
     //Call Your Name - Hiroyuki Sawano
-    private IEnumerator CallName()
+    private void CallName()
     {
         NameGenerator generator = new NameGenerator();
         UIManager.Instance.nameMulkyWay.text = generator.Generate();
-        yield break;
     }
 
     //Snapping - CHUNG HA
@@ -156,6 +169,7 @@ public class GameManager : MonoBehaviour
                 return stars[i].transform.position;
             }
         }
+
         return position;
     }
 
@@ -176,6 +190,7 @@ public class GameManager : MonoBehaviour
                 return effectSpawns[i];
             }
         }
+
         return effectSpawns[0];
     }
 }
