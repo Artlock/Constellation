@@ -22,8 +22,10 @@ public class GameManager : MonoBehaviour
 
     public ParticleSystem[] effectSpawns;
     public float spawnRate = 0.2f;
+    public float scrollWheelMultiplier = 6f;
 
     private bool gameOverMode = false;
+    private GameObject milkyWay;
 
     private void Awake()
     {
@@ -81,6 +83,11 @@ public class GameManager : MonoBehaviour
 
             line.SetPosition(1, position);
         }
+
+        if (milkyWay != null)
+        {
+            milkyWay.transform.rotation = Quaternion.Euler(0f, 0f, Input.mouseScrollDelta.y * scrollWheelMultiplier) * milkyWay.transform.rotation;
+        }
     }
 
     //New Branches - Barron and Painting
@@ -114,13 +121,16 @@ public class GameManager : MonoBehaviour
     {
         List<Star> allStars = new List<Star>();
 
+        // Container for all the stuff to display
+        milkyWay = new GameObject("Constellation Display");
+
         for (int i = 0; i < constellations.Count; i++)
         {
             List<Star> starSpawner = new List<Star>();
             Star[] stars = constellations[i].TakeEverything();
 
-            LineRenderer lineRenderer = Instantiate(spaceCreator.linePrefab);
-            GameObject groupStars = Instantiate(spaceCreator.groupPrefab);
+            LineRenderer lineRenderer = Instantiate(spaceCreator.linePrefab, milkyWay.transform);
+            GameObject groupStars = Instantiate(spaceCreator.groupPrefab, milkyWay.transform);
 
             lineRenderer.startColor = constellations[i].colorOfConstellation;
             lineRenderer.endColor = constellations[i].colorOfConstellation;
