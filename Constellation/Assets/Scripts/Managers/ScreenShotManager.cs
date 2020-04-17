@@ -7,7 +7,7 @@ public class ScreenShotManager : MonoBehaviour
 {
     public static ScreenShotManager Instance;
 
-    public int resolutionMultiplier = 4;
+    public int resolutionMultiplier = 2;
 
     private void Awake()
     {
