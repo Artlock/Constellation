@@ -17,7 +17,7 @@ public class Menu : MonoBehaviour
 
     public void OpenScreenShotsFolder()
     {
-        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsEditor)
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
             // Windows only (TESTED)
             System.Diagnostics.Process.Start("explorer.exe", "/root," + ScreenShotManager.GetScreenShotsFolderPath());
