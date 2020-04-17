@@ -21,9 +21,9 @@ public class GameManager : MonoBehaviour
     public List<Constellation> constellations = new List<Constellation>();
 
     public ParticleSystem[] effectSpawns;
-
-    [Header("Milky Way")]
     public float spawnRate = 0.2f;
+
+    private bool gameOverMode = false;
 
     private void Awake()
     {
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && maxStars != 0 && !EventSystem.current.IsPointerOverGameObject() && EventSystem.current.currentSelectedGameObject == null)
+        if (Input.GetMouseButtonDown(0) && !gameOverMode && maxStars != 0 && !EventSystem.current.IsPointerOverGameObject() && EventSystem.current.currentSelectedGameObject == null)
         {
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             position = currentConstellation.Snapping(position);
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
             UIManager.Instance.CountingStars(maxStars);
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !gameOverMode && currentConstellation?.TakeEverything().Length > 1)
         {
             if (currentConstellation.StarDestroyer())
             {
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2))
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2)) && !gameOverMode && currentConstellation?.TakeEverything().Length > 1)
         {
             spaceCreator.NewConstellation();
 
@@ -103,7 +103,9 @@ public class GameManager : MonoBehaviour
         // Display the name
         CallName();
 
-        //ScreenShotManager.instance.StayInMemory();
+        // Display return to main menu button
+        UIManager.Instance.EndScreen(true);
+
         yield break;
     }
 
@@ -176,6 +178,8 @@ public class GameManager : MonoBehaviour
     //The End Of The Game - Weezer
     public void EndOfTheGame()
     {
+        gameOverMode = true;
+
         UIManager.Instance.Disappear();
         StartCoroutine(MilkyWay());
     }

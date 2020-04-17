@@ -14,4 +14,18 @@ public class Menu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void OpenScreenShotsFolder()
+    {
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            // Windows only (TESTED)
+            System.Diagnostics.Process.Start("explorer.exe", "/root," + ScreenShotManager.GetScreenShotsFolderPath());
+        }
+        else if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            // Mac only (UNTESTED)
+            System.Diagnostics.Process.Start("open", ScreenShotManager.GetScreenShotsFolderPath());
+        }
+    }
 }
