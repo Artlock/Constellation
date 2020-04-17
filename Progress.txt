@@ -1,0 +1,17 @@
+Issues :
+//Issue 1 - I dont know what the project is about and how it works
+//Issue 2 - Name generation fails now and then
+//Issue 3 - Can place stars while display is happening
+//Issue 4 - Can remove stars while display is happening and even if there is only 1 star in current constellation
+//Issue 5 - Can fork stars while display is happening and repeatedly without placing any stars
+
+Upgrades :
+//Upgrade 1 - Add replay button when over that reloads the scene when game is over
+//Upgrade 2 - Finish screenshot mode
+
+Progress :
+//Allow the player to open the screenshots folder from the main menu
+//Allow the player to spin the final constellation using the mouse wheel
+//- Parent all the constellation objects to an object placed at the center of the screen when they are initially created
+//- Allow to rotate that parent object with the mouse wheel when creation is over
+//- Zoom in/out camera on rotation
