@@ -25,7 +25,9 @@ public class GameManager : MonoBehaviour
     public float scrollWheelMultiplier = 6f;
 
     private bool gameOverMode = false;
+    private bool finishedDisplaying = false;
     private GameObject milkyWay;
+    List<Star> milkyWayStars = new List<Star>();
 
     private void Awake()
     {
@@ -84,9 +86,18 @@ public class GameManager : MonoBehaviour
             line.SetPosition(1, position);
         }
 
-        if (milkyWay != null)
+        if (Input.mouseScrollDelta.y != 0f && finishedDisplaying && milkyWay != null)
         {
             milkyWay.transform.rotation = Quaternion.Euler(0f, 0f, Input.mouseScrollDelta.y * scrollWheelMultiplier) * milkyWay.transform.rotation;
+
+            // Update rotation based on the placement of our stars
+            if (milkyWayStars.Count > 0)
+            {
+                CameraManager.Instance.ResetEdges();
+
+                foreach(Star s in milkyWayStars)
+                    CameraManager.Instance.EdgeOfTheWorld(s.transform.position);
+            }
         }
     }
 
@@ -113,13 +124,15 @@ public class GameManager : MonoBehaviour
         // Display return to main menu button
         UIManager.Instance.EndScreen(true);
 
+        finishedDisplaying = true;
+
         yield break;
     }
 
     //Draw the stars - Andredya Triana
     private IEnumerator DrawTheStars()
     {
-        List<Star> allStars = new List<Star>();
+        milkyWayStars = new List<Star>();
 
         // Container for all the stuff to display
         milkyWay = new GameObject("Constellation Display");
@@ -137,11 +150,14 @@ public class GameManager : MonoBehaviour
 
             if (i != 0)
             {
-                int rand = Random.Range(0, allStars.Count);
+                int rand = Random.Range(0, milkyWayStars.Count);
                 float randRot = Random.Range(0f, 360f);
 
-                groupStars.transform.position = allStars[rand].transform.position;
+                groupStars.transform.position = milkyWayStars[rand].transform.position;
                 groupStars.transform.eulerAngles = new Vector3(0, 0, randRot);
+
+                lineRenderer.transform.position = groupStars.transform.position;
+                lineRenderer.transform.eulerAngles = groupStars.transform.eulerAngles;
             }
 
             for (int j = 0; j < stars.Length; j++)
@@ -150,14 +166,15 @@ public class GameManager : MonoBehaviour
                 star.name = constellations[i].colorOfConstellation + " " + j;
 
                 starSpawner.Add(star);
-                allStars.Add(star);
+                milkyWayStars.Add(star);
 
-                star.transform.position = Snapping(allStars, star.transform.position);
+                star.transform.position = Snapping(milkyWayStars, star.transform.position);
 
                 CameraManager.Instance.EdgeOfTheWorld(star.transform.position);
 
                 lineRenderer.positionCount = starSpawner.Count;
-                lineRenderer.SetPositions(starSpawner.Select(t => t.transform.position).ToArray());
+                // This will use localPosition since we want to copy local to local, not world to local
+                lineRenderer.SetPositions(starSpawner.Select(t => t.transform.localPosition).ToArray());
 
                 yield return new WaitForSeconds(spawnRate);
             }
